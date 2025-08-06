@@ -1,0 +1,46 @@
+.resizeHandle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  cursor: col-resize;
+  background: transparent;
+  z-index: 10;
+  transition: background-color 0.2s ease;
+}
+
+.resizeHandle:hover {
+  background: var(--color-primary);
+  opacity: 0.3;
+}
+
+.resizeHandle.active {
+  background: var(--color-primary);
+  opacity: 0.5;
+}
+
+.resizeIndicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 40px;
+  background: var(--color-text-secondary);
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.resizeHandle:hover .resizeIndicator,
+.resizeHandle.active .resizeIndicator {
+  opacity: 0.6;
+}
+
+/* Hide resize handle on mobile */
+@media (max-width: 640px) {
+  .resizeHandle {
+    display: none;
+  }
+}

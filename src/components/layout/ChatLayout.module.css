@@ -4,12 +4,18 @@
   overflow: hidden;
 }
 
+.chatLayout.resizing {
+  user-select: none; /* Prevent text selection during resize */
+}
+
 .sidebar {
   width: 320px;
   background: var(--color-surface);
   border-right: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
+  position: relative; /* Added for resize handle positioning */
+  min-width: 250px; /* Minimum width for resizing */
 }
 
 .main {

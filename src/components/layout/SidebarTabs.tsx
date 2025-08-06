@@ -4,6 +4,7 @@ import { ChatList } from "./ChatList";
 import { ContactList } from "../contacts/ContactList";
 import { Settings } from "../settings/Settings";
 import styles from "./SidebarTabs.module.css";
+import Dock from "../react-bits-components/Dock";
 
 type TabType = "chats" | "contacts" | "settings";
 
@@ -40,8 +41,22 @@ export const SidebarTabs: React.FC = () => {
 
   return (
     <div className={styles.sidebarTabs}>
+      <div className={styles.tabContent}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className={styles.tabPane}
+          >
+            {renderActiveTab()}
+          </motion.div>
+        </AnimatePresence>
+      </div>
       <div className={styles.tabHeader}>
-        <div className={styles.tabButtons}>
+        {/* <div className={styles.tabButtons}>
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -59,22 +74,18 @@ export const SidebarTabs: React.FC = () => {
               </span>
             </button>
           ))}
-        </div>
-      </div>
-
-      <div className={styles.tabContent}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className={styles.tabPane}
-          >
-            {renderActiveTab()}
-          </motion.div>
-        </AnimatePresence>
+        </div> */}
+        <Dock
+          items={tabs.map((tab) => ({
+            icon: tab.icon,
+            label: tab.label,
+            onClick: () => setActiveTab(tab.id),
+            className:
+              activeTab === tab.id
+                ? styles.activeDockItem
+                : "",
+          }))}
+        />
       </div>
     </div>
   );
