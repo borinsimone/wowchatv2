@@ -15,7 +15,7 @@ export const Settings: React.FC = () => {
     resetToDefaults,
     exportPreferences,
   } = useUserPreferences();
-  
+
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {
@@ -38,7 +38,7 @@ export const Settings: React.FC = () => {
     key: keyof typeof preferences.notifications
   ) => {
     updateNotifications({
-      [key]: !preferences.notifications[key]
+      [key]: !preferences.notifications[key],
     });
   };
 
@@ -47,7 +47,7 @@ export const Settings: React.FC = () => {
     value: string
   ) => {
     updatePrivacy({
-      [key]: value as "everyone" | "contacts" | "nobody"
+      [key]: value as "everyone" | "contacts" | "nobody",
     });
   };
 
@@ -107,7 +107,9 @@ export const Settings: React.FC = () => {
             <div className={styles.themeSelector}>
               <button
                 className={`${styles.themeButton} ${
-                  preferences.theme === "light" ? styles.active : ""
+                  preferences.theme === "light"
+                    ? styles.active
+                    : ""
                 }`}
                 onClick={() => handleThemeChange("light")}
               >
@@ -115,7 +117,9 @@ export const Settings: React.FC = () => {
               </button>
               <button
                 className={`${styles.themeButton} ${
-                  preferences.theme === "dark" ? styles.active : ""
+                  preferences.theme === "dark"
+                    ? styles.active
+                    : ""
                 }`}
                 onClick={() => handleThemeChange("dark")}
               >
@@ -123,7 +127,9 @@ export const Settings: React.FC = () => {
               </button>
               <button
                 className={`${styles.themeButton} ${
-                  preferences.theme === "system" ? styles.active : ""
+                  preferences.theme === "system"
+                    ? styles.active
+                    : ""
                 }`}
                 onClick={() => handleThemeChange("system")}
               >
@@ -211,10 +217,15 @@ export const Settings: React.FC = () => {
                 l'ultima volta
               </p>
             </div>
-            <select 
+            <select
               className={styles.select}
               value={preferences.privacy.lastSeen}
-              onChange={(e) => handlePrivacyChange("lastSeen", e.target.value)}
+              onChange={(e) =>
+                handlePrivacyChange(
+                  "lastSeen",
+                  e.target.value
+                )
+              }
             >
               <option value="everyone">Tutti</option>
               <option value="contacts">
@@ -229,10 +240,15 @@ export const Settings: React.FC = () => {
               <span>Stato online</span>
               <p>Chi può vedere se sei online</p>
             </div>
-            <select 
+            <select
               className={styles.select}
               value={preferences.privacy.onlineStatus}
-              onChange={(e) => handlePrivacyChange("onlineStatus", e.target.value)}
+              onChange={(e) =>
+                handlePrivacyChange(
+                  "onlineStatus",
+                  e.target.value
+                )
+              }
             >
               <option value="everyone">Tutti</option>
               <option value="contacts">
@@ -257,7 +273,9 @@ export const Settings: React.FC = () => {
           <div className={styles.settingItem}>
             <div className={styles.settingLabel}>
               <span>Backup Impostazioni</span>
-              <p>Esporta le tue preferenze per conservarle</p>
+              <p>
+                Esporta le tue preferenze per conservarle
+              </p>
             </div>
             <button
               className={styles.actionButton}
@@ -275,7 +293,11 @@ export const Settings: React.FC = () => {
             <button
               className={styles.dangerButton}
               onClick={() => {
-                if (window.confirm('Sei sicuro di voler ripristinare tutte le impostazioni?')) {
+                if (
+                  window.confirm(
+                    "Sei sicuro di voler ripristinare tutte le impostazioni?"
+                  )
+                ) {
                   resetToDefaults();
                 }
               }}

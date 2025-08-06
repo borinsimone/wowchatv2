@@ -1,18 +1,19 @@
-import { useLocalStorage } from './useLocalStorage';
-import type { UserPreferences } from '../types/preferences';
-import { defaultPreferences } from '../types/preferences';
-import { useAppStore } from '../store/useAppStore';
-import { useEffect } from 'react';
+import { useLocalStorage } from "./useLocalStorage";
+import type { UserPreferences } from "../types/preferences";
+import { defaultPreferences } from "../types/preferences";
+import { useAppStore } from "../store/useAppStore";
+import { useEffect } from "react";
 
 /**
  * Hook per gestire le preferenze utente con localStorage
  */
 export function useUserPreferences() {
-  const [preferences, setPreferences] = useLocalStorage<UserPreferences>(
-    'wowchat-preferences',
-    defaultPreferences
-  );
-  
+  const [preferences, setPreferences] =
+    useLocalStorage<UserPreferences>(
+      "wowchat-preferences",
+      defaultPreferences
+    );
+
   const { setTheme } = useAppStore();
 
   // Sincronizza il tema con lo store globale quando cambia
@@ -22,23 +23,44 @@ export function useUserPreferences() {
 
   // Applica il tema quando cambia
   useEffect(() => {
-    const applyTheme = (theme: UserPreferences['theme']) => {
-      if (theme === 'system') {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const systemTheme = mediaQuery.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', systemTheme);
+    const applyTheme = (
+      theme: UserPreferences["theme"]
+    ) => {
+      if (theme === "system") {
+        const mediaQuery = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        );
+        const systemTheme = mediaQuery.matches
+          ? "dark"
+          : "light";
+        document.documentElement.setAttribute(
+          "data-theme",
+          systemTheme
+        );
 
-        const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+        const handleSystemThemeChange = (
+          e: MediaQueryListEvent
+        ) => {
           document.documentElement.setAttribute(
-            'data-theme',
-            e.matches ? 'dark' : 'light'
+            "data-theme",
+            e.matches ? "dark" : "light"
           );
         };
 
-        mediaQuery.addEventListener('change', handleSystemThemeChange);
-        return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
+        mediaQuery.addEventListener(
+          "change",
+          handleSystemThemeChange
+        );
+        return () =>
+          mediaQuery.removeEventListener(
+            "change",
+            handleSystemThemeChange
+          );
       } else {
-        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute(
+          "data-theme",
+          theme
+        );
       }
     };
 
@@ -47,35 +69,44 @@ export function useUserPreferences() {
   }, [preferences.theme]);
 
   // Funzioni helper per aggiornare specifiche sezioni delle preferenze
-  const updateTheme = (theme: UserPreferences['theme']) => {
-    setPreferences(prev => ({ ...prev, theme }));
+  const updateTheme = (theme: UserPreferences["theme"]) => {
+    setPreferences((prev) => ({ ...prev, theme }));
   };
 
-  const updateNotifications = (notifications: Partial<UserPreferences['notifications']>) => {
-    setPreferences(prev => ({
+  const updateNotifications = (
+    notifications: Partial<UserPreferences["notifications"]>
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
-      notifications: { ...prev.notifications, ...notifications }
+      notifications: {
+        ...prev.notifications,
+        ...notifications,
+      },
     }));
   };
 
-  const updatePrivacy = (privacy: Partial<UserPreferences['privacy']>) => {
-    setPreferences(prev => ({
+  const updatePrivacy = (
+    privacy: Partial<UserPreferences["privacy"]>
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
-      privacy: { ...prev.privacy, ...privacy }
+      privacy: { ...prev.privacy, ...privacy },
     }));
   };
 
-  const updateChat = (chat: Partial<UserPreferences['chat']>) => {
-    setPreferences(prev => ({
+  const updateChat = (
+    chat: Partial<UserPreferences["chat"]>
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
-      chat: { ...prev.chat, ...chat }
+      chat: { ...prev.chat, ...chat },
     }));
   };
 
-  const updateUI = (ui: Partial<UserPreferences['ui']>) => {
-    setPreferences(prev => ({
+  const updateUI = (ui: Partial<UserPreferences["ui"]>) => {
+    setPreferences((prev) => ({
       ...prev,
-      ui: { ...prev.ui, ...ui }
+      ui: { ...prev.ui, ...ui },
     }));
   };
 
@@ -87,13 +118,19 @@ export function useUserPreferences() {
   // Funzione per esportare le impostazioni (per backup)
   const exportPreferences = () => {
     const dataStr = JSON.stringify(preferences, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = 'wowchat-preferences.json';
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
+    const dataUri =
+      "data:application/json;charset=utf-8," +
+      encodeURIComponent(dataStr);
+
+    const exportFileDefaultName =
+      "wowchat-preferences.json";
+
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute(
+      "download",
+      exportFileDefaultName
+    );
     linkElement.click();
   };
 
@@ -103,19 +140,28 @@ export function useUserPreferences() {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const importedPreferences = JSON.parse(e.target?.result as string);
+          const importedPreferences = JSON.parse(
+            e.target?.result as string
+          );
           // Valida che abbia la struttura corretta (basic validation)
-          if (importedPreferences && typeof importedPreferences === 'object') {
-            setPreferences({ ...defaultPreferences, ...importedPreferences });
+          if (
+            importedPreferences &&
+            typeof importedPreferences === "object"
+          ) {
+            setPreferences({
+              ...defaultPreferences,
+              ...importedPreferences,
+            });
             resolve();
           } else {
-            reject(new Error('Formato file non valido'));
+            reject(new Error("Formato file non valido"));
           }
         } catch (error) {
-          reject(new Error('Errore nel parsing del file'));
+          reject(new Error("Errore nel parsing del file"));
         }
       };
-      reader.onerror = () => reject(new Error('Errore nella lettura del file'));
+      reader.onerror = () =>
+        reject(new Error("Errore nella lettura del file"));
       reader.readAsText(file);
     });
   };

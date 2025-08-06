@@ -21,7 +21,7 @@ import styles from "./App.module.css";
 function App() {
   const { isAuthenticated, isLoading } = useAuth();
   const { setOnlineStatus } = useAppStore();
-  
+
   // Inizializza le preferenze dell'app (incluso il tema)
   useAppInitialization();
 

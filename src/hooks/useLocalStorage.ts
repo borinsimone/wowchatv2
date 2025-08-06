@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 /**
  * Hook personalizzato per gestire il localStorage con TypeScript
@@ -12,7 +12,7 @@ export function useLocalStorage<T>(
 ): [T, (value: T | ((val: T) => T)) => void] {
   // Stato per memorizzare il valore
   const [storedValue, setStoredValue] = useState<T>(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return initialValue;
     }
 
@@ -23,7 +23,10 @@ export function useLocalStorage<T>(
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       // Se errore, ritorna il valore iniziale
-      console.warn(`Error reading localStorage key "${key}":`, error);
+      console.warn(
+        `Error reading localStorage key "${key}":`,
+        error
+      );
       return initialValue;
     }
   });
@@ -32,18 +35,27 @@ export function useLocalStorage<T>(
   const setValue = (value: T | ((val: T) => T)) => {
     try {
       // Permette al valore di essere una funzione per lo stesso API di useState
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      
+      const valueToStore =
+        value instanceof Function
+          ? value(storedValue)
+          : value;
+
       // Salva lo stato
       setStoredValue(valueToStore);
-      
+
       // Salva nel localStorage
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(
+          key,
+          JSON.stringify(valueToStore)
+        );
       }
     } catch (error) {
       // Un caso edge più avanzato sarebbe gestire l'errore del localStorage
-      console.error(`Error setting localStorage key "${key}":`, error);
+      console.error(
+        `Error setting localStorage key "${key}":`,
+        error
+      );
     }
   };
 
@@ -54,14 +66,19 @@ export function useLocalStorage<T>(
  * Hook per rimuovere un valore dal localStorage
  * @param key - La chiave del localStorage da rimuovere
  */
-export function useRemoveLocalStorage(key: string): () => void {
+export function useRemoveLocalStorage(
+  key: string
+): () => void {
   const removeValue = () => {
     try {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         window.localStorage.removeItem(key);
       }
     } catch (error) {
-      console.error(`Error removing localStorage key "${key}":`, error);
+      console.error(
+        `Error removing localStorage key "${key}":`,
+        error
+      );
     }
   };
 
@@ -74,11 +91,11 @@ export function useRemoveLocalStorage(key: string): () => void {
 export function useClearLocalStorage(): () => void {
   const clearStorage = () => {
     try {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         window.localStorage.clear();
       }
     } catch (error) {
-      console.error('Error clearing localStorage:', error);
+      console.error("Error clearing localStorage:", error);
     }
   };
 
@@ -89,8 +106,11 @@ export function useClearLocalStorage(): () => void {
  * Utility function per leggere dal localStorage senza React hook
  * Utile per leggere valori fuori dai componenti
  */
-export function getLocalStorageValue<T>(key: string, defaultValue: T): T {
-  if (typeof window === 'undefined') {
+export function getLocalStorageValue<T>(
+  key: string,
+  defaultValue: T
+): T {
+  if (typeof window === "undefined") {
     return defaultValue;
   }
 
@@ -98,7 +118,10 @@ export function getLocalStorageValue<T>(key: string, defaultValue: T): T {
     const item = window.localStorage.getItem(key);
     return item ? JSON.parse(item) : defaultValue;
   } catch (error) {
-    console.warn(`Error reading localStorage key "${key}":`, error);
+    console.warn(
+      `Error reading localStorage key "${key}":`,
+      error
+    );
     return defaultValue;
   }
 }
@@ -107,14 +130,20 @@ export function getLocalStorageValue<T>(key: string, defaultValue: T): T {
  * Utility function per scrivere nel localStorage senza React hook
  * Utile per salvare valori fuori dai componenti
  */
-export function setLocalStorageValue<T>(key: string, value: T): void {
-  if (typeof window === 'undefined') {
+export function setLocalStorageValue<T>(
+  key: string,
+  value: T
+): void {
+  if (typeof window === "undefined") {
     return;
   }
 
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    console.error(`Error setting localStorage key "${key}":`, error);
+    console.error(
+      `Error setting localStorage key "${key}":`,
+      error
+    );
   }
 }
