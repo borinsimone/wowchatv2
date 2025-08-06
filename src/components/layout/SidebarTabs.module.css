@@ -1,0 +1,114 @@
+.sidebarTabs {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface);
+}
+
+.tabHeader {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.tabButtons {
+  display: flex;
+  width: 100%;
+}
+
+.tabButton {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md) var(--spacing-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-text-secondary);
+  border-bottom: 3px solid transparent;
+  min-height: 70px;
+}
+
+.tabButton:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+.tabButton.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  background: var(--color-background);
+}
+
+.tabIcon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.tabLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.tabContent {
+  flex: 1;
+  overflow: hidden;
+}
+
+.tabPane {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .tabButton {
+    min-height: 60px;
+    padding: var(--spacing-sm);
+  }
+
+  .tabIcon {
+    font-size: 1.3rem;
+  }
+
+  .tabLabel {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .tabButton {
+    min-height: 50px;
+    padding: var(--spacing-xs);
+  }
+
+  .tabIcon {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+  }
+
+  .tabLabel {
+    font-size: 0.7rem;
+  }
+}
+
+/* Very small screens - hide labels */
+@media (max-width: 480px) {
+  .tabLabel {
+    display: none;
+  }
+
+  .tabButton {
+    min-height: 45px;
+  }
+
+  .tabIcon {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+}

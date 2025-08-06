@@ -1,0 +1,153 @@
+.chatView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-background);
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.backButton {
+  display: none; /* Nascosto su desktop */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-small);
+  transition: background-color 0.2s ease;
+  margin-right: var(--spacing-sm);
+}
+
+.backButton:hover {
+  background: var(--border);
+}
+
+.participantInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.participantAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.participantDetails h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.participantStatus {
+  font-size: 0.85rem;
+  color: var(--success);
+  font-weight: 500;
+}
+
+.chatActions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.actionButton:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+/* Chat not found state */
+.chatNotFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+}
+
+.errorIcon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.5;
+}
+
+.chatNotFound h3 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.chatNotFound p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 400px;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .backButton {
+    display: block; /* Mostra il pulsante su mobile */
+  }
+}
+
+@media (max-width: 768px) {
+  .chatHeader {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .participantInfo {
+    gap: var(--spacing-sm);
+  }
+
+  .participantAvatar {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .participantDetails h3 {
+    font-size: 1rem;
+  }
+
+  .actionButton {
+    padding: var(--spacing-xs);
+    font-size: 1rem;
+  }
+
+  .chatNotFound {
+    padding: var(--spacing-lg);
+  }
+}

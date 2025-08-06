@@ -1,0 +1,247 @@
+:root {
+  /* Light Theme Colors */
+  --color-primary: #1976d2;
+  --color-primary-dark: #1565c0;
+  --color-primary-light: #42a5f5;
+  --color-secondary: #dc004e;
+  --color-secondary-dark: #c51162;
+  --color-secondary-light: #f48fb1;
+
+  /* Background Colors */
+  --color-background: #ffffff;
+  --color-surface: #f5f5f5;
+  --color-surface-variant: #e3f2fd;
+  --color-surface-elevated: #ffffff;
+
+  /* Text Colors */
+  --color-text: #212121;
+  --color-text-secondary: #757575;
+  --color-text-disabled: #9e9e9e;
+  --color-text-on-primary: #ffffff;
+  --color-text-on-secondary: #ffffff;
+
+  /* Border Colors */
+  --color-border: #e0e0e0;
+  --color-border-light: #f5f5f5;
+  --color-divider: #e0e0e0;
+
+  /* Status Colors */
+  --color-success: #4caf50;
+  --color-error: #f44336;
+  --color-warning: #ff9800;
+  --color-info: #2196f3;
+
+  /* Online Status */
+  --color-online: #4caf50;
+  --color-offline: #9e9e9e;
+
+  /* Chat Colors */
+  --color-message-sent: var(--color-primary);
+  --color-message-received: var(--color-surface);
+  --color-message-sent-text: var(--color-text-on-primary);
+  --color-message-received-text: var(--color-text);
+
+  /* Shadows */
+  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-medium: 0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+  --shadow-heavy: 0 10px 20px rgba(0, 0, 0, 0.19),
+    0 6px 6px rgba(0, 0, 0, 0.23);
+
+  /* Border Radius */
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 16px;
+  --radius-round: 50%;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-xxl: 32px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-medium: 0.25s ease;
+  --transition-slow: 0.35s ease;
+
+  /* Z-Index */
+  --z-dropdown: 1000;
+  --z-modal: 1100;
+  --z-tooltip: 1200;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Colors */
+  --color-primary: #42a5f5;
+  --color-primary-dark: #1976d2;
+  --color-primary-light: #90caf9;
+  --color-secondary: #f48fb1;
+  --color-secondary-dark: #dc004e;
+  --color-secondary-light: #fce4ec;
+
+  /* Background Colors */
+  --color-background: #121212;
+  --color-surface: #1e1e1e;
+  --color-surface-variant: #2d2d2d;
+  --color-surface-elevated: #242424;
+
+  /* Text Colors */
+  --color-text: #ffffff;
+  --color-text-secondary: #aaaaaa;
+  --color-text-disabled: #666666;
+  --color-text-on-primary: #000000;
+  --color-text-on-secondary: #000000;
+
+  /* Border Colors */
+  --color-border: #333333;
+  --color-border-light: #2d2d2d;
+  --color-divider: #333333;
+
+  /* Chat Colors */
+  --color-message-sent: var(--color-primary);
+  --color-message-received: var(--color-surface-variant);
+  --color-message-sent-text: var(--color-text-on-primary);
+  --color-message-received-text: var(--color-text);
+}
+
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base Styles */
+html {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-medium),
+    color var(--transition-medium);
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-small);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Button Reset */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Input Reset */
+input,
+textarea {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+/* Link Reset */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Image Reset */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* List Reset */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-primary-light);
+  color: var(--color-text-on-primary);
+}
+
+/* Utility Classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

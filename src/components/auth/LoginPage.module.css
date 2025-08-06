@@ -1,0 +1,156 @@
+.loginPage {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.loginContainer {
+  background: var(--color-background);
+  border-radius: var(--radius-large);
+  padding: var(--spacing-xxl);
+  box-shadow: var(--shadow-heavy);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.logo {
+  margin-bottom: var(--spacing-xl);
+}
+
+.logoIcon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.logoText {
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.welcomeText {
+  margin-bottom: var(--spacing-xl);
+}
+
+.welcomeText h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
+}
+
+.welcomeText p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+}
+
+.error {
+  background: rgba(244, 67, 54, 0.1);
+  color: var(--color-error);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-medium);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid rgba(244, 67, 54, 0.2);
+  font-size: var(--font-size-sm);
+}
+
+.loginActions {
+  margin-bottom: var(--spacing-xl);
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-background);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-medium);
+  min-height: 48px;
+}
+
+.googleButton:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-light);
+  transform: translateY(-2px);
+}
+
+.googleButton:active {
+  transform: translateY(0);
+}
+
+.googleButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.googleIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.features {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.featureIcon {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.feature span {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .loginContainer {
+    padding: var(--spacing-lg);
+  }
+
+  .logoText {
+    font-size: var(--font-size-xl);
+  }
+
+  .welcomeText h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .features {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .feature {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
