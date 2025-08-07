@@ -4,37 +4,63 @@ import { useAppStore } from "../store/useAppStore";
 import type { User } from "../types";
 
 export const useContacts = () => {
-  const {
-    user,
-    contacts,
-    setContacts,
-    addContact,
-    setLoading,
-    setError,
-  } = useAppStore();
+  const { user, contacts, setContacts, addContact } =
+    useAppStore();
 
   const [searchResults, setSearchResults] = useState<
     User[]
   >([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) return;
+    console.log(
+      "useContacts effect triggered, user:",
+      user?.uid
+    );
 
-    setLoading(true);
+    if (!user) {
+      console.log("No user, setting loading false");
+      setIsLoading(false);
+      return;
+    }
+
+    console.log(
+      "Setting loading true and starting listener"
+    );
+    setIsLoading(true);
+    setError(null);
 
     const unsubscribe = ContactService.listenToUserContacts(
       user.uid,
       (newContacts) => {
+        console.log(
+          "Contacts received:",
+          newContacts.length
+        );
         setContacts(newContacts);
-        setLoading(false);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error("Contact listener error:", error);
+        setError("Failed to load contacts");
+        setIsLoading(false);
       }
     );
 
+    // Set a timeout as fallback to prevent infinite loading
+    const fallbackTimeout = setTimeout(() => {
+      console.log("Fallback timeout triggered");
+      setIsLoading(false);
+    }, 3000); // 3 seconds timeout
+
     return () => {
+      console.log("Cleaning up contacts listener");
       unsubscribe();
+      clearTimeout(fallbackTimeout);
     };
-  }, [user, setContacts, setLoading]);
+  }, [user, setContacts, setError]);
 
   const addContactByEmail = useCallback(
     async (email: string) => {
@@ -172,7 +198,7 @@ export const useContacts = () => {
     searchUsers,
     isContact,
     clearSearchResults,
-    isLoading: useAppStore((state) => state.isLoading),
-    error: useAppStore((state) => state.error),
+    isLoading,
+    error,
   };
 };

@@ -50,6 +50,24 @@ export interface Contact {
   addedAt: Timestamp;
 }
 
+export interface Notification {
+  id: string;
+  recipientId: string;
+  senderId: string;
+  senderName: string;
+  senderPhotoURL: string;
+  type:
+    | "contact_request"
+    | "contact_added"
+    | "message"
+    | "chat_invite";
+  title: string;
+  message: string;
+  data?: Record<string, any>;
+  isRead: boolean;
+  createdAt: Timestamp;
+}
+
 export interface Theme {
   primary: string;
   secondary: string;

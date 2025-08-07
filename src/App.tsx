@@ -8,6 +8,7 @@ import {
 import { useAuth } from "./hooks/useAuth";
 import { useAppStore } from "./store/useAppStore";
 import { useAppInitialization } from "./hooks/useAppInitialization";
+import { ToastProvider } from "./contexts/ToastContext";
 
 // Components
 import LoginPage from "./components/auth/LoginPage";
@@ -49,32 +50,34 @@ function App() {
   }
 
   return (
-    <div className={styles.app}>
-      <Router>
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/" replace />
-              ) : (
-                <LoginPage />
-              )
-            }
-          />
-          <Route
-            path="/*"
-            element={
-              isAuthenticated ? (
-                <ChatLayout />
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
-        </Routes>
-      </Router>
-    </div>
+    <ToastProvider>
+      <div className={styles.app}>
+        <Router>
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <LoginPage />
+                )
+              }
+            />
+            <Route
+              path="/*"
+              element={
+                isAuthenticated ? (
+                  <ChatLayout />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+          </Routes>
+        </Router>
+      </div>
+    </ToastProvider>
   );
 }
 

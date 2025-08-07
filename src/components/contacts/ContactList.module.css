@@ -46,6 +46,167 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.modeSelector {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+.modeButton {
+  flex: 1;
+  padding: var(--spacing-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  color: var(--color-text-secondary);
+}
+
+.modeButton.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.modeButton:hover:not(.active) {
+  background: var(--color-surface-hover);
+}
+
+.errorMessage {
+  padding: var(--spacing-sm);
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: var(--border-radius);
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.searchResults {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-sm);
+  background: var(--color-surface);
+}
+
+.searchResultsHeader {
+  padding: var(--spacing-sm);
+  background: var(--color-surface-variant);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.searchResultItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.2s ease;
+}
+
+.searchResultItem:last-child {
+  border-bottom: none;
+}
+
+.searchResultItem:hover {
+  background: var(--color-surface-hover);
+}
+
+.searchUserInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.searchUserName {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.searchUserEmail {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.addFromSearchButton {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.addFromSearchButton:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  transform: scale(1.05);
+}
+
+.addFromSearchButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.searchLoading {
+  padding: var(--spacing-sm);
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+}
+
+.loadingIcon {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.removeButton {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  margin-left: var(--spacing-xs);
+}
+
+.removeButton:hover:not(:disabled) {
+  background: #fee2e2;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.removeButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .contactInput {
   width: 100%;
   padding: var(--spacing-sm);

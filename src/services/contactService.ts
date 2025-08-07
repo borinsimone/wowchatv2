@@ -13,6 +13,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { NotificationService } from "./notificationService";
 import type { Contact, User } from "../types";
 
 export class ContactService {
@@ -96,6 +97,20 @@ export class ContactService {
           reciprocalContactRef,
           reciprocalContact
         );
+
+        // Send notification to the target user
+        try {
+          await NotificationService.sendContactAddedNotification(
+            targetUser.uid,
+            currentUserData
+          );
+        } catch (notificationError) {
+          console.warn(
+            "Failed to send contact notification:",
+            notificationError
+          );
+          // Don't fail the contact addition if notification fails
+        }
       }
 
       return contact;
@@ -179,6 +194,20 @@ export class ContactService {
           reciprocalContactRef,
           reciprocalContact
         );
+
+        // Send notification to the target user
+        try {
+          await NotificationService.sendContactAddedNotification(
+            targetUser.uid,
+            currentUserData
+          );
+        } catch (notificationError) {
+          console.warn(
+            "Failed to send contact notification:",
+            notificationError
+          );
+          // Don't fail the contact addition if notification fails
+        }
       }
 
       return contact;
@@ -221,23 +250,38 @@ export class ContactService {
   // Listen to user contacts
   static listenToUserContacts(
     userId: string,
-    callback: (contacts: Contact[]) => void
+    callback: (contacts: Contact[]) => void,
+    onError?: (error: Error) => void
   ) {
+    console.log(
+      "Starting contact listener for user:",
+      userId
+    );
+
     const contactsRef = collection(db, "contacts");
     const q = query(
       contactsRef,
       where("__name__", ">=", `${userId}_`),
-      where("__name__", "<", `${userId}_\uf8ff`),
-      orderBy("__name__")
+      where("__name__", "<", `${userId}_\uf8ff`)
+      // Removed orderBy to avoid index issues
     );
 
     return onSnapshot(
       q,
       (snapshot) => {
+        console.log(
+          "Contact snapshot received, size:",
+          snapshot.size
+        );
         const contacts: Contact[] = [];
         snapshot.forEach((doc) => {
+          console.log("Processing contact doc:", doc.id);
           contacts.push(doc.data() as Contact);
         });
+        console.log(
+          "Calling callback with contacts:",
+          contacts.length
+        );
         callback(contacts);
       },
       (error) => {
@@ -245,6 +289,16 @@ export class ContactService {
           "Error listening to contacts:",
           error
         );
+        // Call error callback if provided
+        if (onError) {
+          onError(
+            error instanceof Error
+              ? error
+              : new Error("Contact listener error")
+          );
+        }
+        // Still call the main callback with empty array to stop loading
+        callback([]);
       }
     );
   }
@@ -331,6 +385,28 @@ export class ContactService {
     } catch (error) {
       console.error("Error searching users:", error);
       return [];
+    }
+  }
+
+  // Get user by UID
+  static async getUserByUid(
+    uid: string
+  ): Promise<User | null> {
+    try {
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        return null;
+      }
+
+      return {
+        ...userSnap.data(),
+        uid: userSnap.id,
+      } as User;
+    } catch (error) {
+      console.error("Error getting user by UID:", error);
+      return null;
     }
   }
 

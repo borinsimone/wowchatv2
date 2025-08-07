@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAppStore } from "../../store/useAppStore";
 import { ChatService } from "../../services/chatService";
+import { ContactService } from "../../services/contactService";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import styles from "./ChatList.module.css";
 
@@ -12,6 +13,45 @@ export const ChatList: React.FC = () => {
     useState(false);
   const [isCreatingChat, setIsCreatingChat] =
     useState(false);
+  const [participantNames, setParticipantNames] = useState<
+    Record<string, string>
+  >({});
+
+  // Funzione per caricare i nomi dei partecipanti
+  const loadParticipantNames = async (chats: any[]) => {
+    if (!user || chats.length === 0) return;
+
+    const names: Record<string, string> = {};
+
+    for (const chat of chats) {
+      const otherParticipantId = chat.participants?.find(
+        (id: string) => id !== user.uid
+      );
+
+      if (
+        otherParticipantId &&
+        !names[otherParticipantId]
+      ) {
+        try {
+          const user = await ContactService.getUserByUid(
+            otherParticipantId
+          );
+          names[otherParticipantId] =
+            user?.displayName ||
+            user?.email ||
+            otherParticipantId;
+        } catch (error) {
+          console.error(
+            "Error loading participant name:",
+            error
+          );
+          names[otherParticipantId] = otherParticipantId;
+        }
+      }
+    }
+
+    setParticipantNames(names);
+  };
 
   // Funzione per creare una nuova chat
   const createNewChat = async () => {
@@ -52,6 +92,9 @@ export const ChatList: React.FC = () => {
       .then((userChats) => {
         useAppStore.getState().setChats(userChats);
         setIsLocalLoading(false);
+
+        // Load participant names after chats are loaded
+        loadParticipantNames(userChats);
       })
       .catch((error) => {
         console.error(
@@ -62,6 +105,13 @@ export const ChatList: React.FC = () => {
         setIsLocalLoading(false);
       });
   }, [user]);
+
+  // Load participant names when chats change
+  useEffect(() => {
+    if (chats.length > 0) {
+      loadParticipantNames(chats);
+    }
+  }, [chats]);
 
   // Se non c'è un utente, mostra loading
   if (!user) {
@@ -137,6 +187,10 @@ export const ChatList: React.FC = () => {
             chat.participants?.find(
               (id) => id !== user?.uid
             );
+          const participantName = otherParticipantId
+            ? participantNames[otherParticipantId] ||
+              "Caricando..."
+            : "Chat Privata";
           const lastMessageTime =
             chat.lastMessage?.timestamp?.toDate();
           const hasUnreadMessages = false; // TODO: implementare logica unread
@@ -154,7 +208,7 @@ export const ChatList: React.FC = () => {
               >
                 <div className={styles.chatAvatar}>
                   <div className={styles.avatarFallback}>
-                    {otherParticipantId
+                    {participantName
                       ?.charAt(0)
                       .toUpperCase() || "?"}
                   </div>
@@ -168,13 +222,7 @@ export const ChatList: React.FC = () => {
                 <div className={styles.chatInfo}>
                   <div className={styles.chatHeader}>
                     <h4 className={styles.chatName}>
-                      Chat{" "}
-                      {otherParticipantId
-                        ? `con ${otherParticipantId.slice(
-                            0,
-                            12
-                          )}...`
-                        : "Privata"}
+                      {participantName}
                     </h4>
                     {lastMessageTime && (
                       <span
